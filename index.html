@@ -210,7 +210,7 @@
  <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500">engancha</span>
  </h1>
  <p class="text-xl md:text-2xl text-gray-300 mt-8 max-w-10xl mx-auto leading-relaxed animate-slideLeft">
-                VIDEOS LARGOS BASICOS - DINAMICOS | SHORTS REELS | VIDEOS IA 
+                VIDEOS - DINAMICOS | SHORTS REELS | VIDEOS IA 
  <span class="text-purple-400 font-semibold">Si tu video se ralentiza, el espectador se va.</span>
  </p>
  <button id="btnVerTrabajo"
@@ -286,29 +286,6 @@
 
  </div>
 </section>
-
-<!-- VIDEOS LARGOS BÁSICOS -->
-<section id="videosBasicos" class="py-24 px-4 bg-black">
- <div class="max-w-7xl mx-auto">
-
- <div class="text-center mb-12">
- <span class="text-yellow-500 text-sm font-semibold uppercase tracking-wider">
- 
- </span>
- <h2 class="text-4xl md:text-5xl font-bold mt-2 mb-4">
-                VIDEOS LARGOS BÁSICOS
- </h2>
- <p class="text-gray-400 max-w-2xl mx-auto">
-                Edición simple, limpia y directa.
- </p>
- </div>
-
- <div id="videosBasicosContainer"
- class="flex flex-wrap justify-center gap-6">
- </div>
-
- </div>
-</section> 
 <script>
 // ================= LINKS =================
 const shortsLinks = [
@@ -323,15 +300,6 @@ const videosLargos = [
     "https://www.youtube.com/watch?v=hUSra-_eobQ&t=23s",
     "https://www.youtube.com/watch?v=f6kA8pWx8G0"
  
-];
-
-const videosBasicos = [
-    "https://www.youtube.com/watch?v=T_SCR6XJ-8U&t=289s",
-    "https://www.youtube.com/watch?v=UHNWmUvq0Go&t=85s",
-    "https://www.youtube.com/watch?v=s4SFarjquUk&t=32s",
-    "https://www.youtube.com/watch?v=eN6dYoMbPxU",
-    "https://www.youtube.com/watch?v=yQhF60kYfQ0&t=14s",
-    "https://www.youtube.com/watch?v=Yaf0hmbswM0"
 ];
 
 const shortsIALinks = [
@@ -450,43 +418,10 @@ function renderVideosLargos() {
     });
 }
 
-// ================= VIDEOS LARGOS =================
-function renderVideosBasicos() {
-    const container = document.getElementById("videosBasicosContainer");
-    container.innerHTML = "";
-
-    [...videosBasicos].reverse().forEach(url => {
-        const id = getId(url);
-
-        const card = document.createElement("div");
-        card.className = "w-full max-w-sm relative rounded-2xl overflow-hidden bg-gray-900 cursor-pointer group";
-
-        card.innerHTML = `
-            <div class="relative aspect-video overflow-hidden">
-                <img src="https://img.youtube.com/vi/${id}/hqdefault.jpg"
-                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-
-                <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/60 transition">
-                    <div class="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center shadow-lg">
-                        <i class="fas fa-play text-white ml-1"></i>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        card.onclick = () => {
-    openVideoModal(id);
-};
-
-        container.appendChild(card);
-    });
-}
-
-// ================= INIT =================
+ // ================= INIT =================
 renderShorts();
 renderShortsIA();
 renderVideosLargos();
-renderVideosBasicos();
 </script>
 
  <!-- The Mechanics - texto más natural -->
@@ -579,7 +514,7 @@ renderVideosBasicos();
  <section id="contacto" class="py-24 px-4">
  <div class="max-w-3xl mx-auto text-center">
  <h2 class="text-4xl md:text-5xl font-bold mb-6">
-                Deja de perder gente en los primeros 30 segundos
+                CONTÁCTAME
  </h2>
  <p class="text-xl text-gray-300 mb-8">
                 Cuéntame qué necesitas y te ayudo.
@@ -636,7 +571,7 @@ renderVideosBasicos();
 
  <a href="https://mail.google.com/mail/?view=cm&fs=1&to=heinerrojas277@gmail.com&su=Quiero%20editar%20mis%20videos"
  target="_blank">
-                    Enviar correo a heinerrojas277@gmail.com
+                    Enviar correo a heinerrojas2222@gmail.com
  </a>
  </div>
 
