@@ -340,9 +340,10 @@ function getVideoInfo(url) {
         const id = match[1];
 
         return {
-            thumbnail: `https://drive.google.com/thumbnail?id=${id}&sz=w640`,
-            embedUrl: `https://drive.google.com/file/d/${id}/preview`
-        };
+    thumbnail: `https://drive.google.com/thumbnail?id=${id}&sz=w640`,
+    embedUrl: `https://drive.google.com/file/d/${id}/preview`,
+    esVertical: url.includes("drive.google.com")
+};
     }
 
     // Si el enlace es de Instagram
@@ -404,7 +405,7 @@ function renderShorts() {
         `;
 
         card.onclick = () => {
-            openVideoModal(video);
+            openVideoModal(video, "vertical");
         };
 
         container.appendChild(card);
@@ -440,7 +441,7 @@ function renderShortsIA() {
         `;
 
         card.onclick = () => {
-            openVideoModal(video);
+            openVideoModal(video, "vertical");
         };
 
         container.appendChild(card);
@@ -474,7 +475,7 @@ function renderVideosLargos() {
         `;
 
         card.onclick = () => {
-            openVideoModal(video);
+            openVideoModal(video, "horizontal");
         };
 
         container.appendChild(card);
@@ -710,7 +711,7 @@ document.getElementById("btnContacto").addEventListener("click", () => {
             ✕
  </button>
 
- <div id="modalContent" class="w-full aspect-video"></div>
+ <div id="modalContent" class="w-full"></div>
 
  </div>
  <script>
@@ -719,15 +720,22 @@ const modalContent = document.getElementById("modalContent");
 const closeModal = document.getElementById("closeModal");
 
 // Abrir modal
-function openVideoModal(video) {
+
+function openVideoModal(video, formato = "horizontal") {
     modal.classList.remove("hidden");
+
+    const esVertical = formato === "vertical";
+
+    modalContent.className = esVertical
+        ? "w-full max-w-[400px] mx-auto aspect-[9/16]"
+        : "w-full max-w-5xl mx-auto aspect-video";
 
     modalContent.innerHTML = `
         <iframe
             src="${video.embedUrl}"
-            class="w-full h-full"
-            frameborder="0"
-            allow="autoplay; encrypted-media"
+            class="w-full h-full rounded-xl"
+            style="border:0"
+            allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
             allowfullscreen>
         </iframe>
     `;
