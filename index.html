@@ -285,7 +285,7 @@
 // ================= LINKS =================
 const shortsLinks = [
     "https://drive.google.com/file/d/1R_eyPf3aBNvm6u4Eg2VDdhvsqulpx06h/view?usp=sharing",
-    "https://youtube.com/shorts/MoccyJraKKg",
+    "https://www.instagram.com/p/DeaX1bCu_35/",
     "https://youtube.com/shorts/ax7iJvqDH-g",
     "https://youtube.com/shorts/zuGRID-wy9Y",
     "https://youtube.com/shorts/J0atyeX9Yv8"
@@ -322,6 +322,21 @@ function getVideoInfo(url) {
         return {
             thumbnail: `https://drive.google.com/thumbnail?id=${id}&sz=w640`,
             embedUrl: `https://drive.google.com/file/d/${id}/preview`
+        };
+    }
+
+    // Si el enlace es de Instagram
+    if (url.includes("instagram.com")) {
+        const match = url.match(/instagram\.com\/(reel|reels|p)\/([^/?]+)/);
+
+        if (!match) return null;
+
+        const tipo = match[1];
+        const id = match[2];
+
+        return {
+            thumbnail: "",
+            embedUrl: `https://www.instagram.com/${tipo}/${id}/embed`
         };
     }
 
