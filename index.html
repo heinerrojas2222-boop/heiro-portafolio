@@ -309,26 +309,56 @@ const shortsIALinks = [
  
 ];
 // ================= SACAR ID =================
-function getId(url) {
-    if (url.includes("/shorts/")) return url.split("/shorts/")[1].split("?")[0];
-    if (url.includes("youtu.be/")) return url.split("youtu.be/")[1].split("?")[0];
-    if (url.includes("watch?v=")) return url.split("watch?v=")[1].split("&")[0];
-    return url;
+
+function getVideoInfo(url) {
+    // Si el enlace es de Google Drive
+    if (url.includes("drive.google.com")) {
+        const match = url.match(/\/file\/d\/([^/]+)/);
+
+        if (!match) return null;
+
+        const id = match[1];
+
+        return {
+            thumbnail: `https://drive.google.com/thumbnail?id=${id}&sz=w640`,
+            embedUrl: `https://drive.google.com/file/d/${id}/preview`
+        };
+    }
+
+    // Si el enlace es de YouTube
+    let id = "";
+
+    if (url.includes("/shorts/")) {
+        id = url.split("/shorts/")[1].split("?")[0];
+    } else if (url.includes("youtu.be/")) {
+        id = url.split("youtu.be/")[1].split("?")[0];
+    } else if (url.includes("watch?v=")) {
+        id = url.split("watch?v=")[1].split("&")[0];
+    }
+
+    if (!id) return null;
+
+    return {
+        thumbnail: `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
+        embedUrl: `https://www.youtube.com/embed/${id}?autoplay=1`
+    };
 }
 
 // ================= SHORTS =================
+
 function renderShorts() {
     const container = document.getElementById("shortsContainer");
     container.innerHTML = "";
 
     shortsLinks.forEach(url => {
-        const id = getId(url);
+        const video = getVideoInfo(url);
+        if (!video) return;
 
         const card = document.createElement("div");
         card.className = "w-[200px] flex-shrink-0 relative aspect-[9/16] rounded-2xl overflow-hidden bg-gray-900 cursor-pointer group";
 
         card.innerHTML = `
-            <img src="https://img.youtube.com/vi/${id}/hqdefault.jpg"
+            <img src="${video.thumbnail}"
                 class="w-full h-full object-cover">
 
             <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/60 transition">
@@ -339,26 +369,28 @@ function renderShorts() {
         `;
 
         card.onclick = () => {
-    openVideoModal(id);
-};
+            openVideoModal(video);
+        };
 
         container.appendChild(card);
     });
 }
 
 // ================= SHORTS IA =================
+
 function renderShortsIA() {
     const container = document.getElementById("shortsIAContainer");
     container.innerHTML = "";
 
     shortsIALinks.forEach(url => {
-        const id = getId(url);
+        const video = getVideoInfo(url);
+        if (!video) return;
 
         const card = document.createElement("div");
         card.className = "w-[200px] flex-shrink-0 relative aspect-[9/16] rounded-2xl overflow-hidden bg-gray-900 cursor-pointer group";
 
         card.innerHTML = `
-            <img src="https://img.youtube.com/vi/${id}/hqdefault.jpg"
+            <img src="${video.thumbnail}"
                 class="w-full h-full object-cover">
 
             <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/60 transition">
@@ -367,14 +399,13 @@ function renderShortsIA() {
                 </div>
             </div>
 
-            <!-- Badge IA -->
             <div class="absolute top-2 left-2 bg-pink-600 text-xs px-2 py-1 rounded-full font-bold">
                 IA
             </div>
         `;
 
         card.onclick = () => {
-            openVideoModal(id);
+            openVideoModal(video);
         };
 
         container.appendChild(card);
@@ -382,19 +413,21 @@ function renderShortsIA() {
 }
 
 // ================= VIDEOS LARGOS =================
+
 function renderVideosLargos() {
     const container = document.getElementById("videosContainer");
     container.innerHTML = "";
 
     [...videosLargos].reverse().forEach(url => {
-        const id = getId(url);
+        const video = getVideoInfo(url);
+        if (!video) return;
 
         const card = document.createElement("div");
         card.className = "w-full max-w-sm relative rounded-2xl overflow-hidden bg-gray-900 cursor-pointer group";
 
         card.innerHTML = `
             <div class="relative aspect-video overflow-hidden">
-                <img src="https://img.youtube.com/vi/${id}/hqdefault.jpg"
+                <img src="${video.thumbnail}"
                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
 
                 <div class="absolute inset-0 flex items-center justify-center bg-black/40 group-hover:bg-black/60 transition">
@@ -406,10 +439,10 @@ function renderVideosLargos() {
         `;
 
         card.onclick = () => {
-            openVideoModal(id);
+            openVideoModal(video);
         };
 
-        container.appendChild(card); // ✅ AQUÍ VA, fuera del onclick
+        container.appendChild(card);
     });
 }
 
@@ -651,12 +684,12 @@ const modalContent = document.getElementById("modalContent");
 const closeModal = document.getElementById("closeModal");
 
 // Abrir modal
-function openVideoModal(id) {
+function openVideoModal(video) {
     modal.classList.remove("hidden");
 
     modalContent.innerHTML = `
-        <iframe 
-            src="https://www.youtube.com/embed/${id}?autoplay=1"
+        <iframe
+            src="${video.embedUrl}"
             class="w-full h-full"
             frameborder="0"
             allow="autoplay; encrypted-media"
